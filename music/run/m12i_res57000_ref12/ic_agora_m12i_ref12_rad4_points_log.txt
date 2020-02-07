@@ -1,0 +1,20 @@
+# final redshift = 0.000, initial redshift = 99.000
+# centering on volume at final time = [41821.186, 43490.524, 45607.292] kpc comoving
+# selecting radius as 4.00 x R_200m, R_200m = 343.62 kpc comoving
+# radius of selection volume at final time = 1374.492 kpc comoving
+# number of particles in selection volume at final time = 5726986
+#   species dark: number = 5726986
+#   species dark.2: number = 0
+#   species dark.3: number = 0
+#   species dark.4: number = 0
+#   species dark.5: number = 0
+#   species dark.6: number = 0
+# mass of all dark-matter particles:
+#   at highest-resolution in input catalog = 9.50e+12 M_sun
+#   in selection volume at final time = 1.94e+12 M_sun
+#   in convex hull at initial time = 2.98e+12 M_sun
+# volume of convex hull at initial time = 80.0 Mpc ^ 3 comoving
+# initial position-0 [min, max] = [40052.619, 46075.778] kpc comoving, [0.46861564, 0.5390866] box units
+# initial position-1 [min, max] = [39146.389, 44081.705] kpc comoving, [0.45801276, 0.51575595] box units
+# initial position-2 [min, max] = [38318.964, 46381.648] kpc comoving, [0.44833188, 0.54266528] box units
+# using convex hull with 678 vertices to define initial volume

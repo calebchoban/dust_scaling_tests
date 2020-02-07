@@ -1,0 +1,19 @@
+#!/usr/bin/env bash
+#PBS -q condo
+#PBS -N MUSIC
+#PBS -l nodes=1:ppn=2
+#PBS -l walltime=02:00:00
+#PBS -o job.o
+#PBS -e job.e
+#PBS -d .
+set -e
+pwd
+
+source ../compile/tscc/module-reset.sh
+
+export OMP_NUM_THREADS=16
+
+cd /m12i_res57000_ref12/
+./MUSIC ic_agora_m12i.conf
+cd ../m12i_res57000_ref13/
+./MUSIC ic_agora_m12i.conf
