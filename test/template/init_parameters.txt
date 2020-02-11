@@ -1,0 +1,153 @@
+%----  Relevant files
+% if restarting from snapshot file:
+% (1) rename InitCondFile to snapshot file name base, excluding block number and '.hdf5'
+% (2) change ICFormat to hdf5 = 3
+% (3) change submission script to pass restart argument = 2
+InitCondFile    ICs/ics_halo_b_533.dat
+OutputDir       output
+
+%---- File formats
+ICFormat        1  % 1 = binary, 3 = hdf5, 4 = cluster
+SnapFormat      3  % 1 = binary, 3 = hdf5
+
+%---- Output parameters
+RestartFile                 restart
+SnapshotFileBase            snapshot
+OutputListOn                1                             % = 1 to use list in "OutputListFilename"
+OutputListFilename          snapshot_scale-factors.txt    % list of scale factors for snapshots
+NumFilesPerSnapshot         1
+NumFilesWrittenInParallel   1                             % must be <= N_processors & power of 2
+
+%---- Output frequency (use if OutputListOn = 0)
+TimeOfFirstSnapshot     0.1
+TimeBetSnapshot         1.1
+TimeBetStatistics       0.05
+
+%---- CPU-time limits
+TimeLimitCPU            172800    % in seconds. stops at 85%. 2 day = 172800 sec (199000 sec -> 1 hr buffer)
+CpuTimeBetRestartFile   3600      % in seconds
+ResubmitOn              0
+ResubmitCommand         sbatch submit_gizmo_slurm.py
+
+%----- Memory allocation
+MaxMemSize          5450    % in MByte. maximum memory per MPI task (increase if multi-threading)
+PartAllocFactor     10.0     % memory load (x average particles per MPI task) allowed for better cpu balance
+BufferSize          450     % in MByte
+
+%---- Characteristics of run
+TimeBegin   0.00990099    % beginning (scale factor) of simulation
+TimeMax     0.2375000     % ending (scale factor) of simulation
+
+%---- Cosmological parameters
+ComovingIntegrationOn   1         % is it cosmological? (yes = 1, no = 0)
+BoxSize                 40000.    % in code units [default in kpc/h]
+Omega0                  0.272     % = 0 for non-cosmological
+OmegaLambda             0.728     % = 0 for non-cosmological
+OmegaBaryon             0.0455    % = 0 for non-cosmological
+HubbleParam             0.702     % little 'h'; = 1 for non-cosmological runs
+
+%---- Accuracy of time integration
+MaxSizeTimestep         0.005    % for cosmological, in units of delta(ln(a))
+MinSizeTimestep         1.0e-9
+
+%---- Tree algorithm, force accuracy, domain update frequency
+TreeDomainUpdateFrequency   0.02    % 0.0005 - 0.05, depending on core+particle number
+
+%---- System of units
+UnitLength_in_cm            3.085678e21    % sets to 1.0 kpc / h
+UnitMass_in_g               1.989e43       % sets to 1e10 M_sun / h
+UnitVelocity_in_cm_per_s    1.0e5          % sets to 1 km / sec
+UnitMagneticField_in_gauss  1.0   	       % sets to 1 gauss
+GravityConstantInternal     0              % calculated by code if = 0
+
+%---- Initial temperature & temperature floor
+InitGasTemp             0      % set by IC file if = 0. if IC file value != 0, use that instead
+MinGasTemp              10.	   % don't set < 10 in explicit feedback runs, otherwise 0
+
+%---- Density/volume estimation (kernel)
+DesNumNgb               32        % 32 for standard kernel, 60 - 114 for quintic
+MaxHsml                 1.0e3     % maximum gas kernel length (some large value to prevent errors)
+MinGasHsmlFractional    1.0       % minimum kernel length relative to gas force softening (<= 1)
+
+%---- Gravitational softening lengths
+%----- Softening lengths per particle type. If ADAPTIVE_GRAVSOFT is set, these
+%-------- are the minimum softening allowed for each type -------
+%-------- (units are co-moving for cosmological integrations)
+SofteningHalo           1.1    % dark matter/collisionless particles (type = 1)
+SofteningDisk           3.3      % collisionless particles (type = 2)
+SofteningGas            1.1    % gas (type = 0)
+SofteningStars          1.1    % stars spawned from gas (type = 4)
+SofteningBulge          10.0      % collisionless particles (type = 3)
+SofteningBndry          1.1      % black holes (if active), or collisionless (type = 5)
+%---- if these are set in cosmological runs, SofteningX switches from comoving to physical
+%------- units when the comoving value exceeds the choice here
+SofteningHaloMaxPhys    0.03
+SofteningDiskMaxPhys    0.12
+SofteningGasMaxPhys     0.0003
+SofteningStarsMaxPhys   0.003
+SofteningBulgeMaxPhys   1.0
+SofteningBndryMaxPhys   0.02
+%----- parameters for adaptive gravitational softening
+AGS_DesNumNgb           32    % neighbor number for calculating adaptive gravsoft
+
+
+%-------------------------------------------------------------------------
+%-------------------------------------------------------------------------
+%---------- Physics Modules ----------------------------------------------
+%-------------------------------------------------------------------------
+%-------------------------------------------------------------------------
+
+
+%---- Magneto-Hydrodynamics Parameters (MAGNETIC on)
+%--- Initial B-Field Strengths (if B_SET_IN_PARAMS on, otherwise read from IC file)
+BiniX   1.0e-10    % initial B_x, in code units
+BiniY   1.0e-10    % initial B_y, in code units
+BiniZ   1.0e-10    % initial B_z, in code units
+
+%---- Thermal Conduction (CONDUCTION on)
+%--- set coefficient kappa [code units] or, if CONDUCTION_SPITZER on, multiplies value
+ConductionCoeff  1.0    % set/multiply conduction coefficient
+
+%---- Navier-Stokes Viscosity (VISCOSITY on)
+%--- set coefficients eta,zeta [code units] or, if VISCOSITY_BRAGINSKII on, multiplies value
+ShearViscosityCoeff     1.0    % set/multiply shear viscosity coefficient
+BulkViscosityCoeff      1.0    % set/multiply bulk viscosity coefficient
+
+%---- Turbulent Diffusion Master Switch (TURB_DIFFUSION on)
+TurbDiffusionCoefficient 1.0    % Normalizes diffusion rates relative to Smagorinsky-Lilly theory (~0.5-2)
+
+%--- Cosmic Ray + Gas Fluids (COSMIC_RAYS)
+CosmicRayDiffusionCoeff  1.0    % multiplies anisotropic diffusion/streaming coefficients
+
+
+%-------------------------------------------------------------------------
+%------------------ Star, Black Hole, and Galaxy Formation ---------------
+%-------------------------------------------------------------------------
+
+
+%---- Star Formation parameters (GALSF on)
+CritPhysDensity     1000.   % critical physical density for star formation (cm^(-3))
+SfEffPerFreeFall    1.0     % SFR/(Mgas/tfreefall) for gas which meets SF criteria
+
+%-------------- FIRE (PFH) explicit star formation & feedback model
+%--- initial metallicity of gas & stars in simulation
+InitMetallicity                 0.0001    % in solar
+InitStellarAge                  0.001     % mean age (in Gyr)
+%--- local radiation-pressure driven winds (GALSF_FB_RPWIND_LOCAL)
+WindMomentumLoading             1.0    % boost momentum-loading (relative to ssp)
+%--- SneII Heating Model (GALSF_FB_SNE_HEATING)
+SNeIIEnergyFrac                 1.0    % boost fraction of mechanical energy to couple
+%--- HII region photo-heating model (GALSF_FB_HII_HEATING)
+HIIRegion_fLum_Coupled          1.0       % boost fraction of ionizing photons
+%--- long-range radiation pressure acceleration (GALSF_FB_RT_PHOTONMOMENTUM)
+PhotonMomentum_Coupled_Fraction 1.0     % boost fraction of L to allow incident
+PhotonMomentum_fUV              0.01    % incident SED f(L) in UV (minimum scattering)
+PhotonMomentum_fOPT             0.01    % incident SED f(L) in optical/near-IR
+%--- gas return/recycling (GALSF_FB_GASRETURN)
+GasReturnFraction               1.0    % boost fraction of gas returns (relative to ssp)
+GasReturnEnergy                 1.0    % boost temperature of gas returns (relative to ssp)
+%--- cosmic rays (COSMIC_RAYS)
+CosmicRay_SNeFraction           0.1    % fraction of SNe ejecta kinetic energy into cosmic rays (~10%)
+
+%-------------- Grackle UVB file (GRACKLE on)
+GrackleDataFile		     CloudyData_UVB=HM2012.h5

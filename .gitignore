@@ -1,4 +1,14 @@
 bin/
 temp/
 gizmo/
+spcool_tables/
+runs/
+
+TREECOOL
 MUSIC
+
+*.bin
+*.ics
+*log.txt
+*.e
+*.o

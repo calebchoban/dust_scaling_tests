@@ -5,15 +5,13 @@
 To compile:
 
 ```console
-cd compile
-HPC=tscc make
+HPC=tscc make compile
 ```
 
 To run:
 
 ```console
-cd run/{example_name}
-../../compile/bin/MUSIC music.conf
+HPC=tscc make run
 ```
 
 ## Notes

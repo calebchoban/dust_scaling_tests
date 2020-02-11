@@ -5,6 +5,7 @@
 #PBS -l walltime=02:00:00
 #PBS -o job.o
 #PBS -e job.e
+#PBS -
 #PBS -d .
 set -e
 pwd
@@ -13,7 +14,7 @@ source ../compile/tscc/module-reset.sh
 
 export OMP_NUM_THREADS=16
 
-cd /m12i_res57000_ref12/
-./MUSIC ic_agora_m12i.conf
-cd ../m12i_res57000_ref13/
-./MUSIC ic_agora_m12i.conf
+cd ./m12i_res57000_ref12/
+../MUSIC ic_agora_m12i.conf
+cd ../m12i_res7100_ref13/
+../MUSIC ic_agora_m12i.conf

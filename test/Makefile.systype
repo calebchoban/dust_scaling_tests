@@ -1,0 +1,43 @@
+C       =  mpicc
+CXX      =  mpic++
+FC       =  mpif90 -nofor_main
+OPTIMIZE = -O3 $(TACC_VEC_FLAGS) -ipo -funroll-loops -no-prec-div -fp-model fast=2
+## above is preferred, $(TACC_VEC_FLAGS) automatically incorporates the TACC preferred flags for both KNL or SKX nodes
+#OPTIMIZE = -O3 -xMIC-AVX512 -ipo -funroll-loops -no-prec-div -fp-model fast=2  # (deprecated, -xMIC-AVX512 is specific to the KNL nodes)
+OPTIMIZE += -g -Wall # compiler warnings
+#OPTIMIZE += -parallel -openmp  # openmp (comment out this line if OPENMP not used)
+ifeq (OPENMP,$(findstring OPENMP,$(CONFIGVARS)))
+OPTIMIZE += -parallel -qopenmp  # openmp required compiler flags
+endif
+
+GMP_INCL = #
+GMP_LIBS = #
+MKL_INCL = -I$(TACC_MKL_INC)
+MKL_LIBS = -L$(TACC_MKL_LIB) -mkl=sequential
+##MKL_LIBS = -L$(TACC_MKL_LIB) -lm -lmkl_core -lmkl_sequential -lmkl_scalapack_lp64 -lmkl_intel_lp64 -lmkl_blacs_intelmpi_lp64
+GSL_INCL = -I$(TACC_GSL_INC)
+GSL_LIBS = -L$(TACC_GSL_LIB)
+FFTW_INCL= -I$(TACC_FFTW2_INC)
+FFTW_LIBS= -L$(TACC_FFTW2_LIB)
+ifeq (USE_FFTW3, $(findstring USE_FFTW3, $(CONFIGVARS)))
+FFTW_INCL= -I$(TACC_FFTW3_INC)
+FFTW_LIBS= -L$(TACC_FFTW3_LIB)
+endif
+HDF5INCL = -I$(TACC_HDF5_INC) -DH5_USE_16_API
+HDF5LIB  = -L$(TACC_HDF5_LIB) -lhdf5 -lz
+MPICHLIB =
+OPT     += -DUSE_MPI_IN_PLACE
+
+##
+## module load TACC intel impi hdf5 gsl fftw2
+##  - note you can choose to use FFTW3 now instead of FFTW2, but you will need to load that module and change the compiler link appropriately
+## note is you are using the KNL system it has a large number of slow cores, so some changes to 'usual' compilation parameters are advised:
+##  - recommend running with ~16 mpi tasks/node. higher [32 or 64] usually involves a performance hit unless the problem is more scale-able;
+##     use the remaining nodes in OPENMP. Do not use >64 MPI tasks/node [need ~4 cores free for management] and do not use >2 threads/core
+##     [should never have >128 threads/node] -- the claimed 4 hardware threads/core includes non-FP threads which will severely slow performance.
+##     so 'default' would be ~16 tasks/node, OMP_NUM_THREADS=8.
+##  - because of the large core/thread count, MULTIPLEDOMAINS should be set low, MULTIPLEDOMAINS=1 ideally [already problem is heavily-divided].
+##     - likewise be careful with domain decomposition, TreeDomainUpdateFrequency param [so don't spend very long running domain decompositions]
+##  - memory is large per node: for 16 tasks/node, large MaxMemSize=5450 is reasonable, with BufferSize=450, and large PartAllocFactor=40 can be used
+##  - run job with "tacc_affinity" on.
+##

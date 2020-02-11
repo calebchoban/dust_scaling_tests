@@ -7,8 +7,8 @@ compile:
 
 .PHONY: run
 run:
-ifeq ($(HPC),tscc)
-	cd run && qsub job.pbs
-else
-	cd run && sbatch job.sh
-endif
+    ifeq ($(HPC),tscc)
+	    cd run && qsub job.pbs
+    else
+	    cd run && sbatch job.sh
+    endif
