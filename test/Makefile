@@ -9,11 +9,15 @@ help:
 	cat Makefile
 
 # Download GIZMO and all other necessary files
-.PHONY: init
+.PHONY: clone
 init:
 	git clone --single-branch --branch $(BRANCH_NAME) $(GIZMO_GIT_SRC)
 	curl http://www.tapir.caltech.edu/~phopkins/public/spcool_tables.tgz | tar xz
 	ln -s gizmo/cooling/TREECOOL TREECOOL
+
+# Compile and run initial sims
+.PHONY: init
+init:
 	mkdir runs
 	python init_runs.py
 

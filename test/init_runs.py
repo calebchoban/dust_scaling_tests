@@ -40,7 +40,7 @@ dars = f.readlines()
 f.close()
 
 for i in range(len(IC_names)):
-	ic = IC_names[i]
+	ic = IC_names[i].split('/')[-1]
 	folder = IC_folders[i]
 
 	for option in options:
@@ -54,7 +54,7 @@ for i in range(len(IC_names)):
 			if linecount == 6:
 				g.write("InitCondFile\t" + ic +'\n')
 			elif linecount == 7:
-				g.write("output\t" + os.path.join(folder,  option + '_output/\n'))
+				g.write("output\t" + option + '_output/\n')
 			else:
 				g.write(line)
 		g.close()
@@ -86,9 +86,9 @@ for option in options:
 		g.close()
 
 		# Compile GIZMO with Config file
-		#os.system('make compile')
-		#os.system('cp GIZMO ' + folder + '/GIZMO_'+option)
-		#os.system('rm GIZMO Config.sh')
+		os.system('make compile')
+		os.system('cp GIZMO ' + folder + '/GIZMO_'+option)
+		os.system('rm GIZMO Config.sh')
 
 # Now create the job scripts for each of the runs and submit them to the queue
 
@@ -127,5 +127,4 @@ for folder in IC_folders:
 	name = folder.split('/')[-1]
 	for option in options:
 			job_name = 'job_' + option + '.sh'
-			os.system('cd ' + folder)
-			os.system('sbatch ' + job_name)
+			os.system('cd ' + folder + ' && sbatch ' + job_name)

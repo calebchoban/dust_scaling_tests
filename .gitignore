@@ -9,6 +9,6 @@ MUSIC
 
 *.bin
 *.ics
-*log.txt
+*_log.txt
 *.e
 *.o
