@@ -14,8 +14,7 @@ source ../compile/tscc/module-reset.sh
 
 export OMP_NUM_THREADS=8
 
-#cd ./m12i_res57000_ref12/
-#../MUSIC ic_agora_m12i.conf
-#cd ../m12i_res7100_ref13/
-cd ./m12i_res7100_ref13/
+cd ./m12i_res57000_ref12/
+../MUSIC ic_agora_m12i.conf
+cd ../m12i_res7100_ref13/
 ../MUSIC ic_agora_m12i.conf

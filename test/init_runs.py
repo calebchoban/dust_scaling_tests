@@ -28,9 +28,13 @@ for i,name in enumerate(os.listdir(music_path)):
 					os.mkdir(target_folder)
 				except:
 					print("Target folder %s already exists" % target_folder)
-				IC_folders += [target_folder]
+				try:
+					os.mkdir(target_folder + '/init')
+				except:
+					print("Target folder %s already exists" % target_folder)
+				IC_folders += [target_folder + '/init/']
 				IC_names += [os.path.join(target_folder, file)]
-				shutil.copy2(os.path.join(music_folder, file), target_folder)
+				shutil.copy2(os.path.join(music_folder, file), target_folder + '/init/')
 
 # Copy over parameters file
 
@@ -122,7 +126,7 @@ for folder in IC_folders:
 			os.system('rm ' + job_name)
 
 # Now submit jobs to the queue
-
+exit()
 for folder in IC_folders:
 	name = folder.split('/')[-1]
 	for option in options:

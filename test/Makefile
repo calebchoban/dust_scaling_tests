@@ -10,7 +10,7 @@ help:
 
 # Download GIZMO and all other necessary files
 .PHONY: clone
-init:
+clone:
 	git clone --single-branch --branch $(BRANCH_NAME) $(GIZMO_GIT_SRC)
 	curl http://www.tapir.caltech.edu/~phopkins/public/spcool_tables.tgz | tar xz
 	ln -s gizmo/cooling/TREECOOL TREECOOL
@@ -31,10 +31,9 @@ GIZMO: Makefile.systype Config.sh
 	source ./activate.sh && cd gizmo && make
 	mv gizmo/GIZMO ./GIZMO
 
-# submits a job to the queue
-.PHONY: submit
-submit:
-	sbatch job.sh
+.PHONY: tests
+tests:
+	python scaling_tests.py
 
 # cleans up the current and gizmo directory
 .PHONY: clear
