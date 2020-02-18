@@ -114,6 +114,8 @@ for folder in IC_folders:
 				linecount = linecount + 1
 				if (linecount == 2):
 					g.write('#SBATCH -J ' + name + '_' + option + '\n')
+				if (linecount == 10):
+					g.write('#SBATCH -o ' + option + '_job.log\n')
 				elif (linecount == 23):
 					g.write('\t$MPIRUN tacc_affinity ./' + GIZMO_name + ' parameters_' + option + '.txt 1\n')
 				elif (linecount == 26):

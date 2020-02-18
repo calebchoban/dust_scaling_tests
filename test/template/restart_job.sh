@@ -13,7 +13,7 @@
 set -e
 pwd
 date
-source ./activate.sh
+source ../../../activate.sh
 export OMP_NUM_THREADS=2
 MPIRUN="ibrun"
 SECONDS=0
