@@ -91,9 +91,9 @@ for run_folder in run_folders:
 				for line in dars:
 					linecount = linecount + 1
 					if linecount == 6:
-						g.write("InitCondFile\t " + IC_snapshot +'\n')
+						g.write("InitCondFile\t" + IC_snapshot +'\n')
 					elif linecount == 7:
-						g.write("output\t\toutput" + '_t' + str(thread) + '_n' + str(nodes) + '/')
+						g.write("OutputDir\toutput" + '_t' + str(thread) + '_n' + str(nodes) + '/')
 					else:
 						g.write(line)
 				g.close()

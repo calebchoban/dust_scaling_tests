@@ -58,7 +58,7 @@ for i in range(len(IC_names)):
 			if linecount == 6:
 				g.write("InitCondFile\t" + ic +'\n')
 			elif linecount == 7:
-				g.write("output\t" + option + '_output/\n')
+				g.write("OutputDir\t" + option + '_output/\n')
 			else:
 				g.write(line)
 		g.close()
