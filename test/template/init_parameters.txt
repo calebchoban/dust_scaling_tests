@@ -40,7 +40,7 @@ TimeMax     0.2375000     % ending (scale factor) of simulation
 
 %---- Cosmological parameters
 ComovingIntegrationOn   1         % is it cosmological? (yes = 1, no = 0)
-BoxSize                 40000.    % in code units [default in kpc/h]
+BoxSize                 60000.    % in code units [default in kpc/h]
 Omega0                  0.272     % = 0 for non-cosmological
 OmegaLambda             0.728     % = 0 for non-cosmological
 OmegaBaryon             0.0455    % = 0 for non-cosmological

@@ -35,7 +35,7 @@ for i,name in enumerate(os.listdir(target_dir)):
 				os.makedirs(os.path.join(run_folders[-1],option + '/'))
 			except:
 				print("Scaling folder %s already exists" % os.path.join(run_folders[-1],option + '/'))
-			#os.system('cp ' + init_folders + option + '_output/' + IC_snapshot + ' ' + os.path.join(run_folders[-1],option))
+			os.system('cp ' + init_folders + option + '_output/' + IC_snapshot + ' ' + os.path.join(run_folders[-1],option))
 
 
 finname = 'template/Config.sh'

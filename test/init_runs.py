@@ -63,6 +63,12 @@ for i in range(len(IC_names)):
 				g.write(line)
 		g.close()
 
+# Copy over TREECOOL and snapshot_timescale files
+for folder in IC_folders:
+	os.system('cp TREECOOL ' + folder)
+	os.system('cp template/snapshot_scale-factors.txt ' + folder)
+	os.system('cp -r spcool_tables ' + folder)
+
 
 # Create the Config files for each of the runs and compile GIZMO
 
