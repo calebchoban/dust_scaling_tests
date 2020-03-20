@@ -134,7 +134,6 @@ for folder in IC_folders:
 			os.system('rm ' + job_name)
 
 # Now submit jobs to the queue
-exit()
 for folder in IC_folders:
 	name = folder.split('/')[-1]
 	for option in options:

@@ -3,7 +3,7 @@
 % (1) rename InitCondFile to snapshot file name base, excluding block number and '.hdf5'
 % (2) change ICFormat to hdf5 = 3
 % (3) change submission script to pass restart argument = 2
-InitCondFile    ICs/ics_halo_b_533.dat
+InitCondFile    snapshot_112
 OutputDir       output
 
 %---- File formats

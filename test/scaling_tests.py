@@ -43,6 +43,13 @@ f=open(finname)
 dars = f.readlines()
 f.close()
 
+# Copy over TREECOOL and snapshot_timescale files
+for folder in run_folders:
+	for option in options:
+		os.system('cp TREECOOL ' + os.path.join(folder,option + '/'))
+		os.system('cp template/snapshot_scale-factors.txt ' + os.path.join(folder,option + '/'))
+		os.system('cp -r spcool_tables ' + os.path.join(folder,option + '/'))
+
 # Create the Config files for each of the runs and compile GIZMO
 
 foutname = 'Config.sh'
@@ -91,9 +98,12 @@ for run_folder in run_folders:
 				for line in dars:
 					linecount = linecount + 1
 					if linecount == 6:
-						g.write("InitCondFile\t" + IC_snapshot +'\n')
+						g.write("InitCondFile\t" + IC_snapshot.split('.')[0] +'\n')
 					elif linecount == 7:
-						g.write("OutputDir\toutput" + '_t' + str(thread) + '_n' + str(nodes) + '/')
+						g.write("OutputDir\toutput" + '_t' + str(thread) + '_n' + str(nodes) + '/ \n')
+					elif linecount == 33:
+						# Mem size needs to increase with number of threads
+						g.write("MaxMemSize\t" + str(int(5450 * thread/ 2)) + '\t % in MByte. maximum memory per MPI task (increase if multi-threading)\n')
 					else:
 						g.write(line)
 				g.close()
@@ -147,4 +157,4 @@ for run_folder in run_folders:
 		for thread in num_threads:
 			for nodes in num_nodes:
 				job_name = 'job_' + option + '_t' + str(thread) + '_n' + str(nodes) + '.sh'
-				os.system('cd ' + run_folder + 'scaling/' + option + ' && sbatch ' + job_name)
+				os.system('cd ' + run_folder + option + ' && sbatch ' + job_name)
