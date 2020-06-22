@@ -17,6 +17,7 @@ source ../../../activate.sh
 export OMP_NUM_THREADS=2
 
 MPIRUN="ibrun"
+export KMP_INIT_AT_FORK=FALSE
 
 if [[ -d output/restartfiles ]]; then
     # Restart

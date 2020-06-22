@@ -3,7 +3,7 @@
 % (1) rename InitCondFile to snapshot file name base, excluding block number and '.hdf5'
 % (2) change ICFormat to hdf5 = 3
 % (3) change submission script to pass restart argument = 2
-InitCondFile    snapshot_112
+InitCondFile    snapshot_120
 OutputDir       output
 
 %---- File formats
@@ -35,8 +35,8 @@ PartAllocFactor     10.0     % memory load (x average particles per MPI task) al
 BufferSize          450     % in MByte
 
 %---- Characteristics of run
-TimeBegin   0.2375000    % beginning (scale factor) of simulation
-TimeMax     0.2500000    % ending (scale factor) of simulation
+TimeBegin   0.2500000    % beginning (scale factor) of simulation
+TimeMax     0.2516026    % ending (scale factor) of simulation
 
 %---- Cosmological parameters
 ComovingIntegrationOn   1         % is it cosmological? (yes = 1, no = 0)

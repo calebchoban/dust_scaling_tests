@@ -24,7 +24,7 @@ TimeBetSnapshot         1.1
 TimeBetStatistics       0.05
 
 %---- CPU-time limits
-TimeLimitCPU            172800    % in seconds. stops at 85%. 2 day = 172800 sec (199000 sec -> 1 hr buffer)
+TimeLimitCPU            199000    % in seconds. stops at 85%. 2 day = 172800 sec (199000 sec -> 1 hr buffer)
 CpuTimeBetRestartFile   3600      % in seconds
 ResubmitOn              0
 ResubmitCommand         sbatch submit_gizmo_slurm.py
@@ -36,7 +36,7 @@ BufferSize          450     % in MByte
 
 %---- Characteristics of run
 TimeBegin   0.00990099    % beginning (scale factor) of simulation
-TimeMax     0.2375000     % ending (scale factor) of simulation
+TimeMax     0.2500000     % ending (scale factor) of simulation
 
 %---- Cosmological parameters
 ComovingIntegrationOn   1         % is it cosmological? (yes = 1, no = 0)

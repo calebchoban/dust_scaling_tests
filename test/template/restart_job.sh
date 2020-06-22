@@ -16,6 +16,7 @@ date
 source ../../../../activate.sh
 export OMP_NUM_THREADS=2
 MPIRUN="ibrun"
+export KMP_INIT_AT_FORK=FALSE
 SECONDS=0
 date
 $MPIRUN tacc_affinity ./GIZMO gizmo_parameters.txt 2

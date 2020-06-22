@@ -14,7 +14,7 @@ num_threads = [1,2,4]
 options = ['dust','no_dust']
 
 # This is the snapshot you want to restart the scaling tests from
-IC_snapshot = 'snapshot_112.hdf5'
+IC_snapshot = 'snapshot_120.hdf5'
 
 
 ###############################################################################################
@@ -140,7 +140,7 @@ for run_folder in run_folders:
 						g.write('#SBATCH -o ' + option + '_t' + str(thread) + '_n' + str(nodes) + '.log'+'\n')
 					elif (linecount == 17):
 						g.write('export OMP_NUM_THREADS=' + str(thread)+'\n')
-					elif (linecount == 21):
+					elif (linecount == 22):
 						g.write('$MPIRUN tacc_affinity ./GIZMO_' + option + '_t' + str(thread) + ' ' + param_name + ' 2'+'\n')
 					else:
 						g.write(line)
